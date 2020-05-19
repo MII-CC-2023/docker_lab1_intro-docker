@@ -144,7 +144,7 @@ root@7bd71a3f1fa6:/#
 ```
 
 
-## 2.- Imágenes desde Docker hub
+## 2.- Imágenes y Docker hub
 
 a) Buscar en el Docker Hub (https://hub.docker.com/) la imagen PHP
  
