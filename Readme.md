@@ -2,39 +2,52 @@
 (https://docs.docker.com/engine/reference/commandline/cli/)
 
 1.- Instalación de Docker CE en Ubuntu
+
 a) Crear una máquina virtual en GCP con Ubuntu.
+
 b) Actualiza el índice del gestor de paquetes APT
+```
 $ sudo apt-get update
+```
 c) Instala algunos paquetes necesarios, si aún no están instalados
+```
 $ sudo apt-get install \
     apt-transport-https \
     ca-certificates \
     curl \
     gnupg-agent \
     software-properties-common
-
+```
 d) Añade la key oficial para el repositorio de Docker
+```
 $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-
+```
 e) Añade el repositorio con la versión deseada
+```
 $ sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
    stable"
-
+```
 f) Instala la última versión estable de Docker
+```
 $ sudo apt-get install docker-ce docker-ce-cli containerd.io
-
+```
 g) Post-instalación
 Añade tu usuario, que está registrado en la variable de entorno $USER.
+```
 $ sudo usermod -aG docker $USER
+```
 Es necesario volver a entrar al sistema para que los cambios tengan efecto.
 
 
 Comprueba la versión de Docker instalada
+```
 $ docker --version
 Docker version 19.03.8, build afacb8b7f0
+```
 Muestra la información de Docker
+```
 $ docker info
 Containers: 0
  Running: 0
@@ -80,12 +93,10 @@ Server Version: 19.03.8
   127.0.0.0/8
  Live Restore Enabled: false
  Product License: Community Engine
-
-
-
-
+```
 
 También podemos ver la versión tanto del cliente como del servidor
+```
 $ docker version
 Client: Docker Engine - Community
  Version:           19.03.8
@@ -114,9 +125,10 @@ Server: Docker Engine - Community
  docker-init:
   Version:          0.18.0
   GitCommit:        fec3683
+```
 
 Ahora podemos ejecutar contenedores utilizando imáges desde Docker hub:
-
+```
 $ docker run -it ubuntu:18.04 bash
 Unable to find image 'ubuntu:18.04' locally
 18.04: Pulling from library/ubuntu
@@ -129,7 +141,7 @@ Status: Downloaded newer image for ubuntu:18.04
 root@7bd71a3f1fa6:/# ls
 bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
 root@7bd71a3f1fa6:/#
-
+```
 
 
 
