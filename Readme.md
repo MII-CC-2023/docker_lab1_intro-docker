@@ -1,7 +1,7 @@
 # Guía 1: Introducción a Docker 
 (https://docs.docker.com/engine/reference/commandline/cli/)
 
-1.- Instalación de Docker CE en Ubuntu
+## 1.- Instalación de Docker CE en Ubuntu
 
 a) Crear una máquina virtual en GCP con Ubuntu.
 
@@ -144,15 +144,14 @@ root@7bd71a3f1fa6:/#
 ```
 
 
+## 2.- Imágenes desde Docker hub
 
-
-
-2.- Imágenes desde Docker hub
 a) Buscar en el Docker Hub (https://hub.docker.com/) la imagen PHP
  
 Verás que dispone de varias imágenes etiquetadas con Apache
  
 b) Extraer la imagen php:apache desde el Docker Hub
+```
 $ docker pull php:apache
 apache: Pulling from library/php
 27833a3ba0a5: Pull complete
@@ -170,82 +169,138 @@ cc75e951030f: Pull complete
 329ff9bebb9e: Pull complete
 Digest: sha256:df1b70df7eadbd94fee6432bfaba40ce54edc72fc9d4d0239780f294ae03c038
 Status: Downloaded newer image for php:apache
-
+```
 c) Listar las imágenes locales
+```
 $ docker image ls
 REPOSITORY      TAG              IMAGE ID         CREATED          SIZE
 php             apache           1dffbbe4a5d3     13 days ago      378MB
-
+```
 d) Borrar una imagen
+```
 $ docker image rm php:apache
 Untagged: php:apache
 Untagged: ...
+```
 
-5. Contenedores.
+## 3. Contenedores.
+
 a) Ejecutar la imagen en un contenedor (docker run)
+```
 $ docker run -d -it --name front-end -p 80:80 php:apache
+```
+Donde:
+
 -d: (detach). Ejecución en segundo plano
+
 -i: (interactive): Ejecución interactiva
+
 -t: (Terminal): Ejecución en un terminal
+
 --name nombre: asigna nombre al contenedor
+
 -p p1:p2: Mapea el puerto p1 del host al puerto p2 del contenedor
+
 httpd: imagen a ejecutar. Si no está disponible la obtiene del Docker hub
 
 Comprueba que desde la IP de la máquina virtual accedes al servidor Apache del contenedor
+
 b) Mostar listado de contenedores en ejecución
+```
 $ docker container ls
+```
 c) Parar un contenedor en ejecución
+```
 $ docker stop front-end
+```
 d) Listar de todos los contenedores
+```
 $ docker container ls -a
+```
 e) Reiniciar el contenedor
+```
 $ docker start front-end
+```
 f) Ejecutar un comando, en este caso la Shell bash, en el contenedor en ejecución
+```
 $ docker exec -it front-end bash
+```
 
 También, de forma alternativa, puedes ejecutar un comando sobre un contenedor al iniciarlo con
+```
 $ docker run -dit --name front-end -p 80:80 php:apache bash
-En la Shell, crea un fichero index.html
+```
+En la Shell, crea un fichero index.html ejecutando:
+```
   # echo 'Hola Mundo' > index.html
+```
 Comprueba desde el navegador los cambios 
 
 g) Eliminar un contenedor 
+```
 $ docker stop front-end
 $ docker container rm front-end
+```
 
 h) Asignar un volumen persistente, en este caso el directorio actual, al contenedor
+```
 $ docker run -d --name front-end -p 80:80 -v "$PWD":/var/www/html php:apache 
+```
+
 Incluir un fichero index.php con el contenido siguiente en el directorio actual de la máquina virtual y comprueba los resultados desde el navegador
+```php
 <h1>Mi WebApp</h1>
 <?php
   echo "<h2>con PHP</h2>"
 ?>
-Eliminar un contenedor en ejecución
+```
+Puedes eliminar un contenedor en ejecución con:
+```
 $ docker container rm -f front-end
+```
+
 i) Conectar (link) un contenedor con otro
+
 Ejecutar un nuevo contenedor con mySQL; para ello, buscar en el Docker Hub la imagen MySQL para obtener más información. Como podrás ver en la documentación, ejecuta el contenedor con:
+```
 $ docker run -d --name database -e MYSQL_DATABASE=bd -e MYSQL_USER=web -e MYSQL_PASSWORD=web -e MYSQL_ROOT_PASSWORD=pass_root mysql:5.7
+```
 NOTA: En este ejemplo no estamos teniendo en cuenta la persistencia de los datos del contenedor, si deseamos hacerlo crearíamos un volumen para mapear la ruta /var/lib/mysql del contenedor.
 
-Comprobar los logs de un contenedor
+Para comprobar los logs de un contenedor:
+```
 $ docker logs database 
-Lanzar de nuevo el contenedor PHP-Apache pero ahora conectado con la Base de datos:
+```
+Para lanzar de nuevo el contenedor PHP-Apache pero ahora conectado con la Base de datos:
+```
 $ docker run -d --name front-end -p 80:80 --link database -v "$PWD":/var/www/html php:apache 
-Instalar en el contenedor de PHP la librería para acceso a MySQL
+```
+Para instalar en el contenedor de PHP la librería para acceso a MySQL
+```
 $ docker exec -it front-end bash 
 root@56600b9eb1c1:/var/www/html# docker-php-ext-install mysqli
 root@56600b9eb1c1:/var/www/html# docker-php-ext-enable mysqli
-Crear una imagen a partir del contenedor:
+```
+
+Para crear una imagen a partir del contenedor:
+```
 $ docker commit -p front-end php:apache-mysql
-Subir el contenedor a Docker hub
+```
+
+Para subir la nueva imagen a Docker hub
+```
 $ docker login
 $ docker tag php:apache-mysql <usuasio_docker>/php-apache-mysql-app:v1
 $ docker push <usuasio_docker>/php-apache-mysql-app:v1
-Parar y borrar el contenedor front-end anterior, lanzar uno con la nueva imagen creada
+```
+Puedes parar y borrar el contenedor front-end anterior y lanzar uno con la nueva imagen creada
+```
 $ docker stop front-end
 $ docker rm front-end
 $ docker run -d --name front-end -p 80:80 --link database -v "$PWD":/var/www/html <usuasio_docker>/php-apache-app:v1
+```
 Modificar el fichero index.php con el siguiente contenido
+```php
 <h1>Mi WebApp</h1>
 <?php
   echo "<h2>con PHP</h2>"
@@ -264,18 +319,30 @@ if ($conn->connect_error) {
 }
 echo "Connected successfully";
 ?>
+```
+
 j) En esta guía, hemos trabajado con la red (network) por defecto (bridge), pero podríamos a ver creado nuevas redes para ubicar en ella los contenedores. Algunos comandos de interés son:
+
 Mostrar las redes:
+```
 $ docker network ls 
+```
 Crear una red:
+```
 $ docker network create --driver bridge mi-red
+```
 Conectar un contenedor a una red:
+```
 $ docker network connect mi-contenedor
+```
 O bien, conectarlo al ejecutarlo
+```
 $ docker run --network=mi-red mi-imagen
+```
 Podemos inspeccionar las características de una red:
+```
 $ docker inspect mi-red
- 
+```
 
 
 
