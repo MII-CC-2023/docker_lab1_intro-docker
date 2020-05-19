@@ -1,7 +1,7 @@
 # Guía 1: Introducción a Docker 
 (https://docs.docker.com/engine/reference/commandline/cli/)
 
-## 1.- Instalación de Docker CE en Ubuntu
+## 1. Instalación de Docker CE en Ubuntu
 
 a) Crear una máquina virtual en GCP con Ubuntu.
 
@@ -144,7 +144,7 @@ root@7bd71a3f1fa6:/#
 ```
 
 
-## 2.- Imágenes y Docker hub
+## 2. Imágenes y Docker hub
 
 a) Buscar en el Docker Hub (https://hub.docker.com/) la imagen PHP
  
