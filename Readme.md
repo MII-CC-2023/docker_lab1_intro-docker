@@ -1,4 +1,4 @@
-# Guía 1: Introducción a Docker 
+# Lab 1: Introducción a Docker 
 (https://docs.docker.com/engine/reference/commandline/cli/)
 
 ## 1. Instalación de Docker CE en Ubuntu
