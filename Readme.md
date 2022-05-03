@@ -1,6 +1,9 @@
 # Lab 1: Introducción a Docker 
 (https://docs.docker.com/engine/reference/commandline/cli/)
 
+
+Más información para instalación en otras plataformas: https://docs.docker.com/engine/install/ 
+
 ## 1. Instalación de Docker CE en Ubuntu
 
 a) Crear una máquina virtual en GCP con Ubuntu.
@@ -45,7 +48,7 @@ Es necesario volver a entrar al sistema para que los cambios tengan efecto.
 Comprueba la versión de Docker instalada
 ```
 $ docker --version
-Docker version 20.10.6, build 370c289
+Docker version 20.10.14, build a224086
 ```
 Muestra la información de Docker
 ```
@@ -64,7 +67,7 @@ Server:
   Paused: 0
   Stopped: 0
  Images: 0
- Server Version: 20.10.6
+ Server Version: 20.10.14
  Storage Driver: overlay2
   Backing Filesystem: extfs
   Supports d_type: true
@@ -108,7 +111,7 @@ También podemos ver la versión tanto del cliente como del servidor
 ```
 $ docker version
 Client: Docker Engine - Community
- Version:           20.10.6
+ Version:           20.10.14
  API version:       1.41
  Go version:        go1.13.15
  Git commit:        370c289
@@ -119,7 +122,7 @@ Client: Docker Engine - Community
 
 Server: Docker Engine - Community
  Engine:
-  Version:          20.10.6
+  Version:          20.10.14
   API version:      1.41 (minimum version 1.12)
   Go version:       go1.13.15
   Git commit:       8728dd2
@@ -137,6 +140,9 @@ Server: Docker Engine - Community
   GitCommit:        de40ad0
 
 ```
+
+Ayuda comando docker:
+
 ```
 $ docker 
 Usage:  docker [OPTIONS] COMMAND
