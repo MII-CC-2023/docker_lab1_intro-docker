@@ -344,7 +344,7 @@ $ docker container run -dit --name front-end -p 80:80 php:apache bash
 ```
 En la Shell, crea un fichero index.html ejecutando:
 ```
-  # echo 'Hola Mundo' > index.html
+  # echo '<h1>Hola Mundo</h1>' > index.html
 ```
 Comprueba desde el navegador los cambios 
 
